@@ -43,7 +43,7 @@ app.post("/upload", upload.single("file"), (req, res) => {
 });
 
 /* ================= MODELS ================= */
-const Product = require("./models/Product");
+const Product = require("./models/product");
 const User = require("./models/User");
 const Activity = require("./models/Activity");
 const Slider = require("./models/Slider");
