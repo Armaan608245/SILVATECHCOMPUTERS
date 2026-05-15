@@ -386,19 +386,15 @@ app.get("/activity", async (req, res) => {
 
 /* ================= DATABASE ================= */
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
+mongoose.connect(process.env.MONGO_URI)
 
 .then(() => {
   console.log("MongoDB Connected ✅");
 })
 
 .catch((err) => {
-  console.log(err);
+  console.log("Mongo Error ❌", err);
 });
-
 /* ================= SERVER ================= */
 
 const PORT = process.env.PORT || 5000;
