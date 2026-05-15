@@ -17,7 +17,7 @@ function ForgotPassword() {
   // 🔥 SEND OTP
   const sendOtp = async () => {
     try {
-      await axios.post("http://localhost:5000/forgot-password", { email });
+      await axios.post("https://silvatechcomputers.onrender.com/forgot-password", { email });
       alert("OTP sent to your email 📧");
     } catch (err) {
       alert("User not found ❌");
@@ -65,7 +65,7 @@ function ForgotPassword() {
     }
 
     try {
-      await axios.post("http://localhost:5000/reset-password", {
+      await axios.post("https://silvatechcomputers.onrender.com/reset-password", {
         email,
         otp,
         newPassword

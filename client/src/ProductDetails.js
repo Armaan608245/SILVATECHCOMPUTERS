@@ -16,7 +16,7 @@ function ProductDetails({ setCart }) {
 
   const [zoomStyle, setZoomStyle] = useState({});
 
-  const API = "http://localhost:5000";
+  const API = "https://silvatechcomputers.onrender.com";
 
   useEffect(() => {
 

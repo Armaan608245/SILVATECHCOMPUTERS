@@ -30,11 +30,11 @@ function Home({ cart = [], setCart }) {
 
   useEffect(() => {
 
-    axios.get("http://localhost:5000/products")
+    axios.get("https://silvatechcomputers.onrender.com/products")
       .then(res => setProducts(res.data))
       .catch(console.log);
 
-    axios.get("http://localhost:5000/slider")
+    axios.get("http://https://silvatechcomputers.onrender.com/slider")
       .then(res => setSlider(res.data))
       .catch(console.log);
 

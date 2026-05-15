@@ -3,7 +3,7 @@ import axios from "axios";
 
 function Admin() {
 
-  const API = "http://localhost:5000";
+  const API = "https://silvatechcomputers.onrender.com";
 
   const [tab, setTab] = useState("products");
 

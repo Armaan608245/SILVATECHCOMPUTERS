@@ -15,7 +15,7 @@ function Accessories({ cart = [], setCart }) {
   useEffect(() => {
 
     axios
-      .get("http://localhost:5000/products")
+      .get("https://silvatechcomputers.onrender.com/products")
 
       .then((res) => {
 

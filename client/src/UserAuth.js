@@ -38,12 +38,12 @@ function UserAuth() {
           return;
         }
 
-        await axios.post("http://localhost:5000/signup", form);
+        await axios.post("https://silvatechcomputers.onrender.com/signup", form);
         alert("Signup success ✅");
         setIsLogin(true);
 
       } else {
-        const res = await axios.post("http://localhost:5000/login", {
+        const res = await axios.post("https://silvatechcomputers.onrender.com/login", {
           email: form.email,
           password: form.password
         });

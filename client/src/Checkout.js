@@ -60,7 +60,7 @@ function Checkout({ cart, setCart }) {
     try {
 
       await axios.post(
-        "http://localhost:5000/activity",
+        "https://silvatechcomputers.onrender.com/activity",
         {
 
           customerName: form.name,

@@ -53,7 +53,7 @@ function Profile() {
     console.log("SENDING:", dataToSend);
 
     const res = await axios.put(
-      `http://localhost:5000/update-profile/${user._id}`,
+      `https://silvatechcomputers.onrender.com/update-profile/${user._id}`,
       dataToSend
     );
 
