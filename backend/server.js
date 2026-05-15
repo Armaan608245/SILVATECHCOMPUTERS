@@ -174,15 +174,21 @@ app.get("/products", async (req, res) => {
 
   try {
 
+    console.log("Products route hit ✅");
+
     const products = await Product.find();
+
+    console.log(products);
 
     res.json(products);
 
   } catch (err) {
 
-    console.log(err);
+    console.log("PRODUCT ERROR:", err);
 
-    res.status(500).send(err.message);
+    res.status(500).json({
+      error: err.message
+    });
 
   }
 
