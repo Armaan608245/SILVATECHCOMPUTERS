@@ -580,7 +580,7 @@ function Home({ cart = [], setCart }) {
         </div>
 
       </section>
-      /* ================= TOP SELLERS ================= */
+      
 
       {/* ================= TOP SELLERS ================= */}
 
@@ -790,7 +790,7 @@ function Home({ cart = [], setCart }) {
         </div>
 
       </section>
-      /* ================= COMING SOON ================= */
+      
       {/* ================= COMING SOON ================= */}
 
       <section className="core-section">
