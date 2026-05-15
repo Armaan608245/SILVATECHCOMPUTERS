@@ -582,11 +582,19 @@ function Home({ cart = [], setCart }) {
       </section>
       /* ================= TOP SELLERS ================= */
 
+      {/* ================= TOP SELLERS ================= */}
+
       <section className="core-section">
 
         <div className="section-head">
 
-          <h2>
+          <h2
+            style={{
+              color: "#ffffff",
+              fontWeight: "700",
+              textShadow: "0 0 15px rgba(0,140,255,0.7)"
+            }}
+          >
             Top Sellers
           </h2>
 
@@ -670,7 +678,12 @@ function Home({ cart = [], setCart }) {
 
                 )}
 
-                <button className="view-btn">
+                <button
+                  className="view-modern-btn"
+                  onClick={() =>
+                    navigate(`/product/${p._id}`)
+                  }
+                >
                   View
                 </button>
 
@@ -687,7 +700,15 @@ function Home({ cart = [], setCart }) {
       <section className="core-section">
 
         <div className="section-head">
-          <h2>Featured Products</h2>
+          <h2
+            style={{
+              color: "#ffffff",
+              fontWeight: "700",
+              textShadow: "0 0 15px rgba(0,140,255,0.7)"
+            }}
+          >
+            Featured Products
+          </h2>
         </div>
 
         <div className="core-grid">
@@ -770,12 +791,19 @@ function Home({ cart = [], setCart }) {
 
       </section>
       /* ================= COMING SOON ================= */
+      {/* ================= COMING SOON ================= */}
 
       <section className="core-section">
 
         <div className="section-head">
 
-          <h2>
+          <h2
+            style={{
+              color: "#ffffff",
+              fontWeight: "700",
+              textShadow: "0 0 15px rgba(0,140,255,0.7)"
+            }}
+          >
             Coming Soon
           </h2>
 
