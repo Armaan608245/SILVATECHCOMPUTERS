@@ -383,14 +383,19 @@ app.get("/activity", async (req, res) => {
 
 /* ================= DATABASE ================= */
 
-mongoose.connect(process.env.MONGO_URI)
+/* ================= DATABASE ================= */
+
+mongoose.connect(process.env.MONGO_URI, {
+  serverSelectionTimeoutMS: 30000
+})
 
 .then(() => {
   console.log("MongoDB Connected ✅");
 })
 
 .catch((err) => {
-  console.log("Mongo Error ❌", err);
+  console.log("Mongo Error ❌");
+  console.log(err);
 });
 /* ================= SERVER ================= */
 
