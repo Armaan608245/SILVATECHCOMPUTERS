@@ -8,24 +8,25 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const cloudinary = require("cloudinary").v2;
+
 const multer = require("multer");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
+const {
+  CloudinaryStorage
+} = require("multer-storage-cloudinary");
 
 const app = express();
 
 /* ================= MIDDLEWARE ================= */
 
 app.use(cors());
+
 app.use(express.json());
 
-/* ================= TEST ROUTES ================= */
+/* ================= TEST ================= */
 
 app.get("/", (req, res) => {
   res.send("Backend Running ✅");
-});
-
-app.get("/test", (req, res) => {
-  res.send("Test Route Working ✅");
 });
 
 /* ================= CLOUDINARY ================= */
@@ -40,6 +41,7 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary,
+
   params: async (req, file) => ({
     folder: "silver-tech-computer",
     resource_type: "auto",
@@ -51,34 +53,36 @@ const upload = multer({ storage });
 
 /* ================= MODELS ================= */
 
-const Product = require("./models/product");
+const Product = require("./models/Product");
+
 const User = require("./models/User");
+
 const Activity = require("./models/Activity");
+
 const Slider = require("./models/Slider");
 
 /* ================= UPLOAD ================= */
 
-app.post("/upload", upload.single("file"), (req, res) => {
+app.post(
+  "/upload",
+  upload.single("file"),
 
-  try {
+  (req, res) => {
 
     if (!req.file) {
+
       return res.status(400).json({
         message: "No file ❌"
       });
+
     }
 
     res.json({
       url: req.file.path
     });
 
-  } catch (err) {
-
-    res.status(500).send(err.message);
-
   }
-
-});
+);
 
 /* ================= USERS ================= */
 
@@ -137,7 +141,9 @@ app.post("/login", async (req, res) => {
     });
 
     if (!user) {
-      return res.status(400).send("User not found ❌");
+      return res.status(400).send(
+        "User not found ❌"
+      );
     }
 
     const isMatch = await bcrypt.compare(
@@ -146,7 +152,9 @@ app.post("/login", async (req, res) => {
     );
 
     if (!isMatch) {
-      return res.status(400).send("Wrong password ❌");
+      return res.status(400).send(
+        "Wrong password ❌"
+      );
     }
 
     const token = jwt.sign(
@@ -182,10 +190,7 @@ app.get("/products", async (req, res) => {
 
     console.log(err);
 
-    res.status(500).json({
-      message: err.message,
-      fullError: err
-    });
+    res.status(500).send(err.message);
 
   }
 
@@ -214,11 +219,13 @@ app.post("/products", async (req, res) => {
   try {
 
     const data = {
+
       ...req.body,
 
       price: Number(req.body.price),
 
-      media: (req.body.media || []).filter(Boolean),
+      media: (req.body.media || [])
+        .filter(Boolean),
 
       isTopSeller:
         req.body.isTopSeller === true ||
@@ -244,6 +251,7 @@ app.put("/products/:id", async (req, res) => {
   try {
 
     const updated = {
+
       ...req.body,
 
       isTopSeller:
@@ -295,7 +303,11 @@ app.post("/add-slider", async (req, res) => {
     const { url, type } = req.body;
 
     if (!url) {
-      return res.status(400).send("URL required ❌");
+
+      return res.status(400).send(
+        "URL required ❌"
+      );
+
     }
 
     await new Slider({
@@ -383,24 +395,26 @@ app.get("/activity", async (req, res) => {
 
 /* ================= DATABASE ================= */
 
-/* ================= DATABASE ================= */
-
-mongoose.connect(process.env.MONGO_URI, {
-  serverSelectionTimeoutMS: 30000
-})
+mongoose.connect(process.env.MONGO_URI)
 
 .then(() => {
+
   console.log("MongoDB Connected ✅");
+
 })
 
 .catch((err) => {
-  console.log("Mongo Error ❌");
-  console.log(err);
+
+  console.log("Mongo Error ❌", err);
+
 });
+
 /* ================= SERVER ================= */
 
-const PORT = process.env.PORT || 5000;
+app.listen(5000, () => {
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} 🚀`);
+  console.log(
+    "Server running on http://localhost:5000 🚀"
+  );
+
 });
