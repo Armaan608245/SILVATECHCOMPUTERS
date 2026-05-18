@@ -53,14 +53,19 @@ const upload = multer({ storage });
 
 /* ================= MODELS ================= */
 
+<<<<<<< HEAD
 const Product = require("./models/Product");
 
+=======
+const Product = require("./models/product");
+>>>>>>> 47f2158eed81247773d742857523b3e46206e309
 const User = require("./models/User");
 
 const Activity = require("./models/Activity");
 
 const Slider = require("./models/Slider");
 
+<<<<<<< HEAD
 /* ================= UPLOAD ================= */
 
 app.post(
@@ -75,12 +80,29 @@ app.post(
         message: "No file ❌"
       });
 
+=======
+/* ================= HOME ================= */
+
+app.get("/", (req, res) => {
+  res.send("Silva Tech API Running ✅");
+});
+
+/* ================= UPLOAD ================= */
+
+app.post("/api/upload", upload.single("file"), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        message: "No file uploaded ❌"
+      });
+>>>>>>> 47f2158eed81247773d742857523b3e46206e309
     }
 
     res.json({
       url: req.file.path
     });
 
+<<<<<<< HEAD
   }
 );
 
@@ -100,14 +122,36 @@ app.get("/users", async (req, res) => {
 
   }
 
+=======
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+/* ================= USERS ================= */
+
+app.get("/api/users", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+>>>>>>> 47f2158eed81247773d742857523b3e46206e309
 });
 
 /* ================= AUTH ================= */
 
+<<<<<<< HEAD
 app.post("/signup", async (req, res) => {
 
   try {
 
+=======
+app.post("/api/signup", async (req, res) => {
+  try {
+>>>>>>> 47f2158eed81247773d742857523b3e46206e309
     const hashedPassword = await bcrypt.hash(
       req.body.password,
       10
@@ -132,6 +176,7 @@ app.post("/signup", async (req, res) => {
 
 });
 
+<<<<<<< HEAD
 app.post("/login", async (req, res) => {
 
   try {
@@ -174,19 +219,62 @@ app.post("/login", async (req, res) => {
 
   }
 
+=======
+app.post("/api/login", async (req, res) => {
+  try {
+    const user = await User.findOne({
+      email: req.body.email
+    });
+
+    if (!user) {
+      return res.status(400).send("User not found ❌");
+    }
+
+    const isMatch = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+
+    if (!isMatch) {
+      return res.status(400).send("Wrong password ❌");
+    }
+
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+
+    res.json({
+      user,
+      token
+    });
+
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+>>>>>>> 47f2158eed81247773d742857523b3e46206e309
 });
 
 /* ================= PRODUCTS ================= */
 
+<<<<<<< HEAD
 app.get("/products", async (req, res) => {
 
   try {
 
+=======
+/* GET ALL PRODUCTS */
+
+app.get("/api/products", async (req, res) => {
+  try {
+>>>>>>> 47f2158eed81247773d742857523b3e46206e309
     const products = await Product.find();
 
     res.json(products);
 
   } catch (err) {
+<<<<<<< HEAD
 
     console.log(err);
 
@@ -203,10 +291,22 @@ app.get("/products/:id", async (req, res) => {
     const product = await Product.findById(
       req.params.id
     );
+=======
+    res.status(500).send(err.message);
+  }
+});
+
+/* GET SINGLE PRODUCT */
+
+app.get("/api/products/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+>>>>>>> 47f2158eed81247773d742857523b3e46206e309
 
     res.json(product);
 
   } catch (err) {
+<<<<<<< HEAD
 
     res.status(500).send(err.message);
 
@@ -292,12 +392,90 @@ app.delete("/products/:id", async (req, res) => {
 
   }
 
+=======
+    res.status(500).send(err.message);
+  }
+});
+
+/* ADD PRODUCT */
+
+app.post("/api/products", async (req, res) => {
+  try {
+    const data = {
+      ...req.body,
+
+      price: Number(req.body.price),
+
+      media: (req.body.media || []).filter(Boolean),
+
+      isTopSeller:
+        req.body.isTopSeller === true ||
+        req.body.isTopSeller === "true" ||
+        req.body.isTopSeller === 1 ||
+        req.body.isTopSeller === "1"
+    };
+
+    const newProduct = new Product(data);
+
+    await newProduct.save();
+
+    res.send("Product Added ✅");
+
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+/* UPDATE PRODUCT */
+
+app.put("/api/products/:id", async (req, res) => {
+  try {
+    const updatedData = {
+      ...req.body,
+
+      isTopSeller:
+        req.body.isTopSeller === true ||
+        req.body.isTopSeller === "true" ||
+        req.body.isTopSeller === 1 ||
+        req.body.isTopSeller === "1"
+    };
+
+    await Product.findByIdAndUpdate(
+      req.params.id,
+      updatedData
+    );
+
+    res.send("Product Updated ✅");
+
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+/* DELETE PRODUCT */
+
+app.delete("/api/products/:id", async (req, res) => {
+  try {
+    await Product.findByIdAndDelete(req.params.id);
+
+    res.send("Product Deleted ✅");
+
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+>>>>>>> 47f2158eed81247773d742857523b3e46206e309
 });
 
 /* ================= SLIDER ================= */
 
+<<<<<<< HEAD
 app.post("/add-slider", async (req, res) => {
 
+=======
+/* ADD SLIDER */
+
+app.post("/api/add-slider", async (req, res) => {
+>>>>>>> 47f2158eed81247773d742857523b3e46206e309
   try {
 
     const { url, type } = req.body;
@@ -325,15 +503,23 @@ app.post("/add-slider", async (req, res) => {
 
 });
 
+<<<<<<< HEAD
 app.get("/slider", async (req, res) => {
 
   try {
 
+=======
+/* GET SLIDERS */
+
+app.get("/api/slider", async (req, res) => {
+  try {
+>>>>>>> 47f2158eed81247773d742857523b3e46206e309
     const sliders = await Slider.find();
 
     res.json(sliders);
 
   } catch (err) {
+<<<<<<< HEAD
 
     res.status(500).send(err.message);
 
@@ -357,10 +543,28 @@ app.delete("/slider/:id", async (req, res) => {
 
   }
 
+=======
+    res.status(500).send(err.message);
+  }
+});
+
+/* DELETE SLIDER */
+
+app.delete("/api/slider/:id", async (req, res) => {
+  try {
+    await Slider.findByIdAndDelete(req.params.id);
+
+    res.send("Slider Deleted ✅");
+
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+>>>>>>> 47f2158eed81247773d742857523b3e46206e309
 });
 
 /* ================= ACTIVITY ================= */
 
+<<<<<<< HEAD
 app.post("/activity", async (req, res) => {
 
   try {
@@ -381,21 +585,42 @@ app.get("/activity", async (req, res) => {
 
   try {
 
+=======
+app.post("/api/activity", async (req, res) => {
+  try {
+    await new Activity(req.body).save();
+
+    res.send("Activity Saved ✅");
+
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+app.get("/api/activity", async (req, res) => {
+  try {
+>>>>>>> 47f2158eed81247773d742857523b3e46206e309
     const activity = await Activity.find();
 
     res.json(activity);
 
   } catch (err) {
+<<<<<<< HEAD
 
     res.status(500).send(err.message);
 
   }
 
+=======
+    res.status(500).send(err.message);
+  }
+>>>>>>> 47f2158eed81247773d742857523b3e46206e309
 });
 
 /* ================= DATABASE ================= */
 
 mongoose.connect(process.env.MONGO_URI)
+<<<<<<< HEAD
 
 .then(() => {
 
@@ -418,3 +643,19 @@ app.listen(5000, () => {
   );
 
 });
+=======
+  .then(() => {
+    console.log("MongoDB Connected ✅");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+/* ================= SERVER ================= */
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT} 🚀`);
+});
+>>>>>>> 47f2158eed81247773d742857523b3e46206e309
